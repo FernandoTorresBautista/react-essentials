@@ -40,6 +40,9 @@ function App() {
     setCards(cardsCopy); // set the cards with the latest change
   }
 
+  const classes = ['button'];
+  if (cards.length < 3) classes.push('pink');
+  if (cards.length < 2) classes.push('red');
   const cardsMarkup =  showCard && (
     cards.map((card, index) => 
       <Card 
@@ -55,7 +58,7 @@ function App() {
   return (
     <div className="App">
       <button 
-        className="button" 
+        className={classes.join(' ')} 
         onClick={toggleShowCard}>
         Toggle show/hide
       </button>
