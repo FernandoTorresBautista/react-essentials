@@ -2,6 +2,13 @@ import {useState} from 'react';
 import './App.css';
 import Card from './Card';
 // import faker from 'faker';
+import { ThemeProvider } from 'styled-components';
+import Button from './element/Button';
+
+const theme = {
+  primary: '#4CAF50',
+  mango: 'yellow'
+}
 
 function App() {
   const [cards, setCards] = useState([
@@ -34,7 +41,7 @@ function App() {
   }
 
   const changeNameHandler = (event, id) => {
-    const cardIndex = cards.findIndex((card, index)=>card.id === id); // which card
+    const cardIndex = cards.findIndex(card=>card.id === id); // which card
     const cardsCopy = [...cards]; // make a copy of the cards
     cardsCopy[cardIndex].name = event.target.value; // change the name of the specific card
     setCards(cardsCopy); // set the cards with the latest change
@@ -56,14 +63,19 @@ function App() {
     );
   
   return (
-    <div className="App">
-      <button 
-        className={classes.join(' ')} 
-        onClick={toggleShowCard}>
-        Toggle show/hide
-      </button>
-      { cardsMarkup }
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Button color="mango" length={cards.length}>
+          Toggle
+        </Button>
+        <button 
+          className={classes.join(' ')} 
+          onClick={toggleShowCard}>
+          Toggle show/hide
+        </button>
+        { cardsMarkup }
+      </div>
+    </ThemeProvider>
   );
 }
 
