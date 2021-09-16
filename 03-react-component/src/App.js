@@ -10,95 +10,75 @@ const theme = {
   mango: 'yellow'
 }
 
-class  App extends Component  {
-  constructor(props) {
-    console.log('App js constructor')
-    super(props)
-    this.state = {
-      cards: [
-        {
-          id:'asd',
-          name: "name 1",
-          title: "title 1",
-          avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
-        },
-        {
-          id:'sdf',
-          name: "name 2",
-          title: "title 2",
-          avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
-        },
-        {
-          id:'dfg',
-          name: "name 3",
-          title: "title 3",
-          avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
-        },
-      ],
-      showCard: true
+  function App() {
+
+    const [cards, setCards] = useState([
+      {
+        id:'asd',
+        name: "name 1",
+        title: "title 1",
+        avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
+      },
+      {
+        id:'sdf',
+        name: "name 2",
+        title: "title 2",
+        avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
+      },
+      {
+        id:'dfg',
+        name: "name 3",
+        title: "title 3",
+        avatar: 'https://cdn.fakercloud.com/avatars/ceekaytweet_128.jpg'
+      },
+    ])
+    const [showCard, setShowCard] = useState(true)
+  
+    const toggleShowCard = () => setShowCard(!showCard)
+    const deleteCardHandler = (cardIndex) => {
+      const cards_copy = [...cards]
+      cards_copy.splice(cardIndex, 1)
+      console.log('cards_copy', cards_copy)
+      console.log('cards', cards)
+      setCards(cards_copy)
+  
     }
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    console.log('App js getDerivedStateFromProps', props)
-    return state
-  }
-
-  toggleShowCard = ()=> this.setState({ showCard: !this.state.showCard })
-
-  deleteCardHandler = (cardIndex) => {
-    const cardsCopy = [...this.state.cards];
-    cardsCopy.splice(cardIndex,1);
-    this.setState({cards:cardsCopy})
-  }
-
-  changeNameHandler = (event, id) => {
-    const cardIndex = this.state.cards.findIndex(card=>card.id === id); // which card
-    const cardsCopy = [...this.state.cards]; // make a copy of the cards
-    cardsCopy[cardIndex].name = event.target.value; // change the name of the specific card
-    this.setState({cards:cardsCopy})
-  }
-
-  componentDidMount() {
-    console.log("App in componentDidMount")
-  }
-
-  render() {
-    if (this.state.showCard === false) {
-      return <div>nothing</div>
+    const changeNameHandler = (event, id) => {
+      //1. which card
+      const cardIndex = cards.findIndex(card => card.id === id)
+      //2. make a copy of the cards
+      const cards_copy = [...cards]
+      //3. change the name of the specific card
+      cards_copy[cardIndex].name = event.target.value
+      //4. set the cards with the latest version of card copy
+      setCards(cards_copy)
     }
-    console.log("App in render");
-    const classes = ['button'];
-    if (this.state.cards.length < 3) classes.push('pink');
-    if (this.state.cards.length < 2) classes.push('red');
-    const cardsMarkup =  this.state.showCard && (
-      this.state.cards.map((card, index) => 
-        <Card 
-          avatar={card.avatar}
-          name={card.name}
-          title={card.title}
-          key={card.id}
-          onDelete={()=>this.deleteCardHandler(index)}
-          onChangeName={(event)=>this.changeNameHandler(event,card.id)}
-        />)
-      );
+    // const buttonStyle = {
+    //   backgroundColor: null
+    // }
+    const classes = ['button']
+    if (cards.length < 3) classes.push('pink')
+    if (cards.length < 2) classes.push('red text');
+    const cardsMarkup = showCard && (
+      cards.map((card, index) => <Card
+        avatar={card.avatar}
+        name={card.name}
+        title={card.title}
+        key={card.id}
+        onDelete={() => deleteCardHandler(index)}
+        onChangeName={(event) => changeNameHandler(event, card.id)}
+      />)
+    )
+  
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
-          <Button color="mango" length={this.state.cards.length} onClick={this.toggleShowCard}>
-            Toggle
-          </Button>
-          <button 
-            className={classes.join(' ')} 
-            onClick={this.toggleShowCard}>
-            Toggle show/hide
-          </button>
-          { cardsMarkup }
+          <Button color="mango" length={cards.length}>Toggle</Button>
+          <button className={classes.join(' ')} onClick={toggleShowCard}>Toggle show/hide</button>
+          {cardsMarkup}
         </div>
       </ThemeProvider>
-    )
+    );  
   }
-
-}
 
 export default App;
