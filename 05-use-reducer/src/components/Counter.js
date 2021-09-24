@@ -3,20 +3,15 @@ import { Button, ButtonGroup, Badge } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const initialState = {
-    counter1:0,
-    counter2:10
+    counter:0
 };
 
 const reducer = (state, action) =>{
     switch (action.type) {
         case 'increment':
-            return {...state, counter1:state.counter1+action.payload};
+            return {...state, counter:state.counter+action.payload};
         case 'decrement':
-            return {...state, counter1:state.counter1-action.payload};
-        case 'increment2':
-            return {...state, counter2:state.counter2+action.payload};
-        case 'decrement2':
-            return {...state, counter2:state.counter2-action.payload};
+            return {...state, counter:state.counter-action.payload};
         case 'reset':
             return initialState;
         default:
@@ -25,34 +20,31 @@ const reducer = (state, action) =>{
 }
 
 const Counter = () => {
-    const [count, dispatch] = useReducer(reducer, initialState)
+    const [state1, dispatch1] = useReducer(reducer, initialState)
+    const [state2, dispatch2] = useReducer(reducer, initialState)
     return (
         <div>
                 <ButtonGroup>
                     <Button color="primary" outline>
-                        Counter1 <Badge color="secondary">{count.counter1}</Badge>
+                        Counter1 <Badge color="secondary">{state1.counter}</Badge>
                     </Button>
                     <Button color="primary" outline>
-                        Counter2 <Badge color="secondary">{count.counter2}</Badge>
+                        Counter2 <Badge color="secondary">{state2.counter}</Badge>
                     </Button>
                 </ButtonGroup>
                 <p></p>
                 <ButtonGroup>
-                    <Button color="dark" onClick={()=>{dispatch({type:'increment', payload:1})}}>increment +1</Button>
-                    <Button color="dark" onClick={()=>{dispatch({type:'decrement', payload:1})}}>decrement -1</Button>
-                </ButtonGroup>
-                <p></p>          
-                <ButtonGroup>
-                    <Button color="dark" onClick={()=>{dispatch({type:'increment', payload:5})}}>increment +5</Button>
-                    <Button color="dark" onClick={()=>{dispatch({type:'decrement', payload:5})}}>decrement -5</Button>
-                </ButtonGroup>
-                <p></p>           
-                <ButtonGroup>
-                    <Button color="dark" onClick={()=>{dispatch({type:'increment', payload:2})}}>increment +2</Button>
-                    <Button color="dark" onClick={()=>{dispatch({type:'decrement', payload:2})}}>decrement -2</Button>
-                </ButtonGroup>           
+                    <Button color="dark" onClick={()=>{dispatch1({type:'increment', payload:1})}}>increment +1</Button>
+                    <Button color="dark" onClick={()=>{dispatch1({type:'decrement', payload:1})}}>decrement -1</Button>
+                    <Button color="danger" onClick={()=>{dispatch1({type:'reset'})}}>reset</Button>
+                </ButtonGroup>     
                 <p></p>
-                <Button color="danger" onClick={()=>{dispatch({type:'reset'})}}>reset</Button>
+                <ButtonGroup>
+                    <Button color="dark" onClick={()=>{dispatch2({type:'increment', payload:1})}}>increment +1</Button>
+                    <Button color="dark" onClick={()=>{dispatch2({type:'decrement', payload:1})}}>decrement -1</Button>
+                    <Button color="danger" onClick={()=>{dispatch2({type:'reset'})}}>reset</Button>
+                </ButtonGroup>     
+                <p></p>
         </div>
     )
 }
