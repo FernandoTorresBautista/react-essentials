@@ -1,13 +1,20 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
+import auth from '../auth';
 
 const Navbar = (props) => {
-    // console.log("navbar: ", props);
-    // useEffect((props) => {
-    //     setTimeout(()=> {
-    //         props.history.push('/about');
-    //     }, 2000);
-    // }, [])
+    const authHandler = () => {
+        if (auth.isAuthenticated()) {
+            auth.logout( () => {
+                props.history.push('/')
+            })
+        } else {
+            auth.login(()=> {
+                props.history.push('/about')
+            })
+        }
+    }
+    const authText = auth.isAuthenticated() ? 'logout':'login';
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -16,11 +23,20 @@ const Navbar = (props) => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="nav nav-tabs">
-                    <NavLink className="nav-item nav-link" to="/">Home</NavLink>
-                    <NavLink className="nav-item nav-link" to="/about">About</NavLink>
-                    <NavLink className="nav-item nav-link" to="/contact">Contact</NavLink>
-                    </div>
+                    <ul className="nav nav-tabs mr-auto">
+                        <li>
+                            <NavLink className="nav-item nav-link" to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="nav-item nav-link" to="/about">About</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="nav-item nav-link" to="/contact">Contact</NavLink>
+                        </li>
+                    </ul>
+                    <button className="btn btn-success navbar-btn" onClick={authHandler}>
+                        {authText}
+                    </button>
                 </div>
             </div>
         </nav>
