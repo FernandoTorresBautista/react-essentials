@@ -1,5 +1,6 @@
 import React from 'react';
 import faker from 'faker';
+import Colorful from '../hoc/Colorful';
 
 const About = () => {
     return (
@@ -12,4 +13,4 @@ const About = () => {
     )
 }
 
-export default About
+export default Colorful(About)

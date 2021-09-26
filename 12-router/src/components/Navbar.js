@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 
 const Navbar = (props) => {
-    console.log("navbar: ", props);
-    useEffect((props) => {
-        setTimeout(()=> {
-            props.history.push('/about');
-        }, 2000);
-    }, [])
+    // console.log("navbar: ", props);
+    // useEffect((props) => {
+    //     setTimeout(()=> {
+    //         props.history.push('/about');
+    //     }, 2000);
+    // }, [])
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
